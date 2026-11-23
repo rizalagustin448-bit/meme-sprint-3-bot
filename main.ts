@@ -10,9 +10,10 @@ const target = join(outputDir, "entry.png");
 mkdirSync(outputDir, { recursive: true });
 copyFileSync(source, target);
 
-const size = statSync(target).size;
-if (size === 0 || size > 1048576) {
-  throw new Error(`entry.png has unexpected size: ${size} bytes`);
+const bytes = statSync(target).size;
+const tooBig = bytes > 1048576;
+if (bytes === 0 || tooBig) {
+  throw new Error(`entry.png has unexpected size: ${bytes} bytes`);
 }
 
-console.log(`wrote ${target} (${size} bytes)`);
+console.log(`wrote ${target} (${bytes} bytes)`);
